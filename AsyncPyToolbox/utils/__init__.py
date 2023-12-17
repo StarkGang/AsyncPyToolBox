@@ -15,7 +15,9 @@ from concurrent.futures.thread import ThreadPoolExecutor
 executor = ThreadPoolExecutor(max_workers=multiprocessing.cpu_count() * 5)
 
 def check_if_package_exists(package: str):
-    """Check if a package exists."""
+    """Check if a package exists.
+    Parameters:
+        package (str): Name of the package."""
     try:
         __import__(package)
     except ImportError:
@@ -24,7 +26,9 @@ def check_if_package_exists(package: str):
         return True
 
 def run_in_exc(func_):
-    """Run a blocking function in a thread pool executor and return an awaitable."""
+    """Run a blocking function in a thread pool executor and return an awaitable.
+    Parameters:
+        func_ (function): Blocking function to run."""
     @wraps(func_)
     async def wrapper(*args, **kwargs):
         loop = asyncio.get_running_loop()

@@ -98,7 +98,12 @@ pattern = re.compile(regex)
 
 @run_in_exc
 def is_url(value: str, public: bool =False) -> bool:
-    """Check if value is URL."""
+    """Check if value is URL.
+    Parameters:
+        value (str): Value to check.
+        public (bool, optional): Whether to check for public URLs or not.
+    Returns:
+        bool: Whether the value is URL or not."""
     result = pattern.match(value)
     if not public:
         return result
@@ -109,25 +114,46 @@ def is_url(value: str, public: bool =False) -> bool:
 
 @run_in_exc
 def is_valid_email(value: str) -> bool:
-    """Check if value is valid email."""
+    """Check if value is valid email.
+    Parameters:
+        value (str): Value to check.
+    Returns:
+        bool: Whether the value is valid email or not."""
     return bool(re.search(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", value))
 
 @run_in_exc
 def validate_phone_any_country(phone: str) -> bool:
-    """Validate phone number."""
+    """Validate phone number.
+    Parameters:
+        phone (str): Phone number to validate.
+    Returns:
+        bool: Whether the phone number is valid or not."""
     return bool(re.search(r"^\+?[0-9]{6,14}$", phone))
 
 
 @run_in_exc
 def random_hash(length=8) -> str:
-    """Generate a random hash."""
+    """Generate a random hash.
+    Parameters:
+        length (int, optional): Length of the hash.
+    Returns:
+        str: Random hash."""
     return "".join(random.choice("0123456789abcdef") for _ in range(length))
 
 @run_in_exc
-def generate_random_password(length, lowercase=True, uppercase=True, digits=True, special_chars=True):
-    """Generate a random password."""
+def generate_random_password(length: int, lowercase: bool = True, uppercase: bool = True, digits: bool = True, special_chars: bool = True) -> str:
+    """Generate a random password.
+    Parameters:
+        length (int): Length of the password.
+        lowercase (bool, optional): Whether to include lowercase letters or not. Defaults to True.
+        uppercase (bool, optional): Whether to include uppercase letters or not. Defaults to True.
+        digits (bool, optional): Whether to include digits or not. Defaults to True.
+        special_chars (bool, optional): Whether to include special characters or not. Defaults to True.
+    Returns:
+        str: Random password."""
     chars = string.ascii_lowercase * lowercase + string.ascii_uppercase * uppercase + string.digits * digits + string.punctuation * special_chars
     return ''.join(random.choice(chars) for _ in range(length))
+
 
 bs4_installed = check_if_package_exists("bs4")
 markdown_installed = check_if_package_exists("markdown")
@@ -138,7 +164,11 @@ if bs4_installed and markdown_installed:
 
 @run_in_exc
 def md_to_text(raw_text: str) -> str:
-    """Convert markdown to text."""
+    """Convert markdown to text.
+    Parameters:
+        raw_text (str): Markdown text.
+    Returns:
+        str: Text converted from markdown."""
     if bs4_installed and markdown_installed:
         html = markdown.markdown(raw_text)
         soup = BeautifulSoup(html, features="html.parser")
@@ -148,8 +178,12 @@ def md_to_text(raw_text: str) -> str:
     return html_entity_decode(text)
 
 @run_in_exc
-def html_entity_decode(text: str):
-    """Decode HTML entities in the text."""
+def html_entity_decode(text: str) -> str:
+    """Decode HTML entities in the text.
+    Parameters:
+        text (str): Text to decode.
+    Returns:
+        str: Decoded text."""
     entities = {'&nbsp;': ' ', '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&lt;': '<', '&gt;': '>'}
     for entity, char in entities.items():
         text = text.replace(entity, char)
@@ -157,7 +191,11 @@ def html_entity_decode(text: str):
 
 @run_in_exc        
 def clean_html(text: str) -> str:
-    """"Clean HTML tags from text."""
+    """"Clean HTML tags from text.
+    Parameters:
+        text (str): Text to clean.
+    Returns:
+        str: Cleaned text."""
     return re.sub(r"<[^>]*>", "", text)
 
 platforms = {
@@ -181,7 +219,10 @@ platforms = {
     }
 
 @run_in_exc
-def gen_random_useragent():
+def gen_random_useragent() -> str:
+    """Generate a random user agent.
+    Returns:
+        str: Random user agent."""
     platform = random.choice(["Macintosh", "Windows", "X11"])
     gen_os = random.choice(platforms[platform])    
     browser = random.choice(["chrome", "firefox", "ie"])
