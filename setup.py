@@ -9,7 +9,7 @@ def read_readme():
 
 # Function to parse version from __init__.py
 def get_version():
-    with open(os.path.join('VaniLite', '__init__.py'), 'r', encoding='utf-8') as f:
+    with open(os.path.join('AsyncPyToolbox', '__init__.py'), 'r', encoding='utf-8') as f:
         version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.MULTILINE)
         if version_match:
             return version_match.group(1)
